@@ -1,6 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 
+#
+# Author: Yuriy Malov. https://t.me/ymalov
+# Source skeleton: https://towardsdatascience.com/how-to-deploy-a-telegram-bot-using-heroku-for-free-9436f89575d2
+#
+
+# import packages
 import os, io, logging, requests, time, json, random, wget, torch
 import torch.optim as optim
 import torchvision.models
@@ -17,6 +23,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+# Tokens is saved on the Heroku. HerokuApp -> Settings ->  Config Vars
 TOKEN = os.environ.get('TOKEN_TG')
 HEROKU_URL = os.environ.get('HEROKU_URL')
 
@@ -38,7 +45,9 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
+# main function
 def prediction(update, context):
+	# this commands print only for console Heroku App
 	print('start prediction')
 	random_text = random.choice(('Картинка получена. Достаём монокль ...', \
                              	'Фотокарточка получена. Будим деда, вместе с ним посмотрим ...', \
@@ -77,6 +86,7 @@ def prediction(update, context):
 	input_transforms = [transforms.Resize(255),
 		transforms.CenterCrop(224),
 		transforms.ToTensor(),
+		# normalize for example ImageNet dataset
 		transforms.Normalize([0.485, 0.456, 0.406],[0.229, 0.224, 0.225])]
 	my_transforms = transforms.Compose(input_transforms)
 	file = my_transforms(file)
@@ -112,7 +122,7 @@ def prediction(update, context):
 
 	# output = ('Это ' + class_name + ' с вероятностью:' + prob + '%')
 	output = ('Результат: это ' + class_name)
-	# send message to Telegram
+	# send pred. message to Telegram
 	update.message.reply_text(output)
 	# remove file
 	os.remove(file)
