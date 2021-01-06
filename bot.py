@@ -39,7 +39,7 @@ def help(update, context):
 
 def info(update, context):
 	"""Layer info block"""
-	update.message.reply_text('Система построена на базе свёрточной нейронной сети (CNN), за основу взята архитектура Resnet34 обученная на датасете ImageNet. На базе этой сети замораживались первые 50% слоёв и обучались последние 50% на этом датасете: https://www.kaggle.com/ymalov/simpsons. Исходный код процесса обучения находится здесь: https://www.kaggle.com/ymalov/simpsons-baseline. Автор Юрий Малов: @ymalov')
+	update.message.reply_text('Система построена на базе свёрточной нейронной сети (CNN), за основу взята архитектура Resnet34 обученная на датасете ImageNet. На базе этой сети замораживались первые 70% слоёв и обучались последние 30% на этом датасете: https://www.kaggle.com/ymalov/simpsons. Исходный код процесса обучения находится здесь: https://www.kaggle.com/ymalov/simpsons-baseline. Автор Юрий Малов: @ymalov')
 
 def error(update, context):
     """Log Errors caused by Updates."""
